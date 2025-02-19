@@ -60,7 +60,7 @@ export default function Login() {
         <VStack spacing={8} align="stretch">
           <Box textAlign="center">
             <Image
-              src={useColorModeValue('/src/assets/logo.svg', '/src/assets/logo-dark.svg')}
+              src={useColorModeValue('/assets/logo.svg', '/assets/logo-dark.svg')}
               alt="JTrack Logo"
               h="50px"
               mx="auto"

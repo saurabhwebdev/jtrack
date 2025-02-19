@@ -71,7 +71,7 @@ export default function Navbar() {
 
         <HStack spacing={8} alignItems="center">
           <Image
-            src={useColorModeValue('/src/assets/logo.svg', '/src/assets/logo-dark.svg')}
+            src={useColorModeValue('/assets/logo.svg', '/assets/logo-dark.svg')}
             alt="JTrack Logo"
             h="40px"
             cursor="pointer"

@@ -62,7 +62,7 @@ export default function Profile() {
               <VStack align="start" flex={1} spacing={4}>
                 <VStack align="start" spacing={1}>
                   <Heading size="lg">{user?.email}</Heading>
-                  <Text color="gray.500">Member since {new Date(user?.createdAt || '').toLocaleDateString()}</Text>
+                  <Text color="gray.500">Member since {new Date(user?.created_at || '').toLocaleDateString()}</Text>
                 </VStack>
                 <Button
                   leftIcon={<Icon as={FiEdit2} />}

@@ -34,15 +34,17 @@ export interface JobApplication {
   companyName: string
   positionTitle: string
   applicationDate: string
-  status: 'DRAFT' | 'APPLIED' | 'INTERVIEWING' | 'OFFERED' | 'ACCEPTED' | 'REJECTED' | 'WITHDRAWN'
+  applicationSource: ApplicationSource
+  status: ApplicationStatus
   jobDescription?: string
   location?: string
   jobType?: 'FULL_TIME' | 'PART_TIME' | 'CONTRACT' | 'INTERNSHIP'
   workMode?: 'REMOTE' | 'HYBRID' | 'ON_SITE'
-  salaryMin?: number
-  salaryMax?: number
-  source?: string
+  salaryRange?: SalaryRange
+  nextStep?: string
+  nextStepDate?: string
   notes?: string
+  interviews?: Interview[]
   createdAt: string
   updatedAt: string
 }

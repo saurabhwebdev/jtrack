@@ -80,8 +80,8 @@ export default function Navbar() {
       px={4}
       py={6}
       onClick={() => {
-        navigate(to)
         onClose()
+        navigate(to)
       }}
       leftIcon={<Icon as={icon} boxSize={5} />}
       _hover={{ bg: useColorModeValue('blue.50', 'blue.900') }}
@@ -259,7 +259,12 @@ export default function Navbar() {
       </Flex>
 
       {/* Mobile Drawer */}
-      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+      <Drawer 
+        isOpen={isOpen} 
+        placement="left" 
+        onClose={onClose}
+        autoFocus={false}
+      >
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
@@ -268,6 +273,11 @@ export default function Navbar() {
               src={useColorModeValue('/assets/logo.svg', '/assets/logo-dark.svg')}
               alt="JTrack Logo"
               h="40px"
+              onClick={() => {
+                onClose()
+                navigate('/')
+              }}
+              cursor="pointer"
             />
           </DrawerHeader>
 

@@ -97,7 +97,7 @@ export default function Navbar() {
   return (
     <Box
       bg={bgColor}
-      px={4}
+      px={{ base: 2, md: 4 }}
       boxShadow="sm"
       position="sticky"
       top={0}
@@ -111,13 +111,14 @@ export default function Navbar() {
           display={{ md: 'none' }}
           onClick={onOpen}
           variant="ghost"
+          _hover={{ bg: useColorModeValue('blue.50', 'blue.900') }}
         />
 
-        <HStack spacing={8} alignItems="center">
+        <HStack spacing={{ base: 2, md: 8 }} alignItems="center">
           <Image
             src={useColorModeValue('/assets/logo.svg', '/assets/logo-dark.svg')}
             alt="JTrack Logo"
-            h="40px"
+            h={{ base: "32px", md: "40px" }}
             cursor="pointer"
             onClick={() => navigate('/')}
           />
@@ -163,15 +164,17 @@ export default function Navbar() {
           </HStack>
         </HStack>
 
-        <Flex alignItems="center" gap={4}>
+        <Flex alignItems="center" gap={{ base: 1, md: 4 }}>
           <Menu>
-            <Tooltip label="Adjust font size">
+            <Tooltip label="Adjust font size" openDelay={500}>
               <MenuButton
                 as={IconButton}
                 icon={<FaFont />}
                 variant="ghost"
                 aria-label="Font size"
-                size="md"
+                size={{ base: "sm", md: "md" }}
+                display={{ base: 'none', sm: 'flex' }}
+                _hover={{ bg: useColorModeValue('blue.50', 'blue.900') }}
               />
             </Tooltip>
             <MenuList>
@@ -198,14 +201,17 @@ export default function Navbar() {
 
           <Menu>
             <MenuButton
-              as={Button}
+              as={IconButton}
               rounded="full"
-              variant="link"
+              variant="ghost"
               cursor="pointer"
               minW={0}
+              size={{ base: "sm", md: "md" }}
+              p={0}
+              _hover={{ bg: useColorModeValue('blue.50', 'blue.900') }}
             >
               <Avatar
-                size="sm"
+                size={{ base: "sm", md: "sm" }}
                 name={user?.email}
                 bg="blue.500"
               />

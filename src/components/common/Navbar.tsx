@@ -25,6 +25,8 @@ import {
   DrawerContent,
   DrawerCloseButton,
   Text,
+  Portal,
+  useBreakpointValue,
 } from '@chakra-ui/react'
 import { HiOutlineMenu } from 'react-icons/hi'
 import { FaFont } from 'react-icons/fa'
@@ -52,6 +54,9 @@ export default function Navbar() {
   const { fontSize, setFontSize } = useTheme()
   const bgColor = useColorModeValue('white', 'gray.900')
   const borderColor = useColorModeValue('gray.200', 'gray.700')
+  
+  // Use breakpoint to disable focus trap on mobile
+  const isMobile = useBreakpointValue({ base: true, md: false })
 
   const handleSignOut = async () => {
     try {
@@ -60,6 +65,26 @@ export default function Navbar() {
     } catch (error) {
       console.error('Error signing out:', error)
     }
+  }
+
+  const cleanupModalElements = () => {
+    // Remove focus guards and other modal elements
+    const elementsToRemove = document.querySelectorAll(
+      '[data-focus-guard], [data-focus-lock-disabled], .chakra-portal, .chakra-modal__content-container'
+    )
+    elementsToRemove.forEach(el => el?.parentNode?.removeChild(el))
+
+    // Reset body styles
+    document.body.style.overflow = ''
+    document.body.style.paddingRight = ''
+    
+    // Remove any inline styles added to body
+    document.body.removeAttribute('data-chakra-lock')
+  }
+
+  const handleDrawerClose = () => {
+    onClose()
+    setTimeout(cleanupModalElements, 100) // Cleanup after animation
   }
 
   const NavButton = ({ 
@@ -99,22 +124,6 @@ export default function Navbar() {
         </HStack>
       </Button>
     )
-  }
-
-  const handleDrawerClose = () => {
-    onClose()
-    // Force cleanup of any lingering overlay and focus guards
-    document.body.style.overflow = ''
-    document.body.style.paddingRight = ''
-    // Remove any lingering modal containers and focus guards
-    const elementsToRemove = [
-      ...Array.from(document.querySelectorAll('.chakra-modal__content-container')),
-      ...Array.from(document.querySelectorAll('[data-focus-guard]')),
-      ...Array.from(document.querySelectorAll('[data-focus-lock-disabled]')),
-      document.querySelector('.chakra-portal')
-    ].filter(Boolean)
-
-    elementsToRemove.forEach(el => el?.remove())
   }
 
   return (
@@ -281,127 +290,123 @@ export default function Navbar() {
         </Flex>
       </Flex>
 
-      {/* Mobile Drawer */}
-      <Drawer 
-        isOpen={isOpen} 
-        placement="left" 
-        onClose={handleDrawerClose}
-        autoFocus={false}
-        returnFocusOnClose={false}
-        preserveScrollBarGap={false}
-        blockScrollOnMount={false}
-        closeOnEsc={true}
-        onEsc={handleDrawerClose}
-        onCloseComplete={() => {
-          // Additional cleanup on drawer close
-          const elementsToRemove = [
-            ...Array.from(document.querySelectorAll('[data-focus-guard]')),
-            ...Array.from(document.querySelectorAll('[data-focus-lock-disabled]')),
-            document.querySelector('.chakra-portal')
-          ].filter(Boolean)
-          elementsToRemove.forEach(el => el?.remove())
-        }}
-      >
-        <DrawerOverlay 
-          bg="blackAlpha.600" 
-          backdropFilter="blur(2px)"
-          onClick={handleDrawerClose}
-          style={{ position: 'fixed', inset: 0 }}
-        />
-        <DrawerContent
-          style={{ position: 'fixed', height: '100vh', top: 0, left: 0 }}
+      <Portal>
+        <Drawer 
+          isOpen={isOpen} 
+          placement="left" 
+          onClose={handleDrawerClose}
+          autoFocus={false}
+          returnFocusOnClose={false}
+          preserveScrollBarGap={false}
+          blockScrollOnMount={false}
+          closeOnEsc={true}
+          onEsc={handleDrawerClose}
+          trapFocus={!isMobile}
+          onCloseComplete={cleanupModalElements}
         >
-          <DrawerCloseButton 
+          <DrawerOverlay 
+            bg="blackAlpha.600" 
+            backdropFilter="blur(2px)"
             onClick={handleDrawerClose}
-            _hover={{ bg: useColorModeValue('blue.50', 'blue.900') }}
-            zIndex={2}
+            style={{ position: 'fixed', inset: 0 }}
           />
-          <DrawerHeader borderBottomWidth="1px">
-            <Image
-              src={useColorModeValue('/assets/logo.svg', '/assets/logo-dark.svg')}
-              alt="JTrack Logo"
-              h="40px"
-              onClick={() => {
-                handleDrawerClose()
-                navigate('/')
-              }}
-              cursor="pointer"
+          <DrawerContent
+            style={{ position: 'fixed', height: '100vh', top: 0, left: 0 }}
+            role="dialog"
+            aria-modal="true"
+          >
+            <DrawerCloseButton 
+              onClick={handleDrawerClose}
+              _hover={{ bg: useColorModeValue('blue.50', 'blue.900') }}
+              zIndex={2}
             />
-          </DrawerHeader>
-
-          <DrawerBody px={0} py={4}>
-            <VStack spacing={0} align="stretch">
-              <NavButton icon={FiHome} to="/">
-                Dashboard
-              </NavButton>
-              
-              <NavButton icon={FiBriefcase} to="/applications">
-                Applications
-              </NavButton>
-              
-              <NavButton icon={FiCalendar} to="/interviews">
-                Interviews
-              </NavButton>
-              
-              <NavButton icon={FiUserPlus} to="/referrals">
-                Referrals
-              </NavButton>
-              
-              <NavButton 
-                icon={FiPieChart} 
-                to="/reports"
-                badge={
-                  <Badge colorScheme="blue" variant="subtle" fontSize="xs">
-                    BETA
-                  </Badge>
-                }
-              >
-                Analytics
-              </NavButton>
-
-              <Divider my={4} />
-
-              <Text px={4} mb={2} fontSize="sm" color="gray.500" fontWeight="medium">
-                Account
-              </Text>
-
-              <NavButton icon={FiUser} to="/profile">
-                Profile
-              </NavButton>
-              
-              <NavButton icon={FiSettings} to="/profile/settings">
-                Settings
-              </NavButton>
-              
-              <NavButton icon={FiBell} to="/profile/notifications">
-                Notifications
-              </NavButton>
-              
-              <NavButton icon={FiHelpCircle} to="/help">
-                Help Center
-              </NavButton>
-
-              <Divider my={4} />
-
-              <Button
-                w="full"
-                variant="ghost"
-                justifyContent="flex-start"
-                px={4}
-                py={6}
+            <DrawerHeader borderBottomWidth="1px">
+              <Image
+                src={useColorModeValue('/assets/logo.svg', '/assets/logo-dark.svg')}
+                alt="JTrack Logo"
+                h="40px"
                 onClick={() => {
                   handleDrawerClose()
-                  handleSignOut()
+                  navigate('/')
                 }}
-                leftIcon={<Icon as={FiLogOut} boxSize={5} />}
-                _hover={{ bg: useColorModeValue('red.50', 'red.900'), color: 'red.500' }}
-              >
-                <Text>Sign Out</Text>
-              </Button>
-            </VStack>
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
+                cursor="pointer"
+              />
+            </DrawerHeader>
+
+            <DrawerBody px={0} py={4}>
+              <VStack spacing={0} align="stretch">
+                <NavButton icon={FiHome} to="/">
+                  Dashboard
+                </NavButton>
+                
+                <NavButton icon={FiBriefcase} to="/applications">
+                  Applications
+                </NavButton>
+                
+                <NavButton icon={FiCalendar} to="/interviews">
+                  Interviews
+                </NavButton>
+                
+                <NavButton icon={FiUserPlus} to="/referrals">
+                  Referrals
+                </NavButton>
+                
+                <NavButton 
+                  icon={FiPieChart} 
+                  to="/reports"
+                  badge={
+                    <Badge colorScheme="blue" variant="subtle" fontSize="xs">
+                      BETA
+                    </Badge>
+                  }
+                >
+                  Analytics
+                </NavButton>
+
+                <Divider my={4} />
+
+                <Text px={4} mb={2} fontSize="sm" color="gray.500" fontWeight="medium">
+                  Account
+                </Text>
+
+                <NavButton icon={FiUser} to="/profile">
+                  Profile
+                </NavButton>
+                
+                <NavButton icon={FiSettings} to="/profile/settings">
+                  Settings
+                </NavButton>
+                
+                <NavButton icon={FiBell} to="/profile/notifications">
+                  Notifications
+                </NavButton>
+                
+                <NavButton icon={FiHelpCircle} to="/help">
+                  Help Center
+                </NavButton>
+
+                <Divider my={4} />
+
+                <Button
+                  w="full"
+                  variant="ghost"
+                  justifyContent="flex-start"
+                  px={4}
+                  py={6}
+                  onClick={() => {
+                    handleDrawerClose()
+                    handleSignOut()
+                  }}
+                  leftIcon={<Icon as={FiLogOut} boxSize={5} />}
+                  _hover={{ bg: useColorModeValue('red.50', 'red.900'), color: 'red.500' }}
+                >
+                  <Text>Sign Out</Text>
+                </Button>
+              </VStack>
+            </DrawerBody>
+          </DrawerContent>
+        </Drawer>
+      </Portal>
     </Box>
   )
 } 

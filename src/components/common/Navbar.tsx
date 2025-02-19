@@ -103,14 +103,18 @@ export default function Navbar() {
 
   const handleDrawerClose = () => {
     onClose()
-    // Force cleanup of any lingering overlay
+    // Force cleanup of any lingering overlay and focus guards
     document.body.style.overflow = ''
     document.body.style.paddingRight = ''
-    // Remove any lingering modal containers
-    const modalContainers = document.querySelectorAll('.chakra-modal__content-container')
-    modalContainers.forEach(container => {
-      container.remove()
-    })
+    // Remove any lingering modal containers and focus guards
+    const elementsToRemove = [
+      ...Array.from(document.querySelectorAll('.chakra-modal__content-container')),
+      ...Array.from(document.querySelectorAll('[data-focus-guard]')),
+      ...Array.from(document.querySelectorAll('[data-focus-lock-disabled]')),
+      document.querySelector('.chakra-portal')
+    ].filter(Boolean)
+
+    elementsToRemove.forEach(el => el?.remove())
   }
 
   return (
@@ -283,17 +287,19 @@ export default function Navbar() {
         placement="left" 
         onClose={handleDrawerClose}
         autoFocus={false}
-        onOverlayClick={handleDrawerClose}
+        returnFocusOnClose={false}
+        preserveScrollBarGap={false}
+        blockScrollOnMount={false}
         closeOnEsc={true}
         onEsc={handleDrawerClose}
-        blockScrollOnMount={false}
-        preserveScrollBarGap={true}
         onCloseComplete={() => {
           // Additional cleanup on drawer close
-          const modalContainers = document.querySelectorAll('.chakra-modal__content-container')
-          modalContainers.forEach(container => {
-            container.remove()
-          })
+          const elementsToRemove = [
+            ...Array.from(document.querySelectorAll('[data-focus-guard]')),
+            ...Array.from(document.querySelectorAll('[data-focus-lock-disabled]')),
+            document.querySelector('.chakra-portal')
+          ].filter(Boolean)
+          elementsToRemove.forEach(el => el?.remove())
         }}
       >
         <DrawerOverlay 

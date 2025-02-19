@@ -264,10 +264,13 @@ export default function Navbar() {
         placement="left" 
         onClose={onClose}
         autoFocus={false}
+        onOverlayClick={onClose}
+        closeOnEsc={true}
+        onEsc={onClose}
       >
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
+        <DrawerOverlay zIndex={1000} />
+        <DrawerContent zIndex={1001}>
+          <DrawerCloseButton onClick={onClose} />
           <DrawerHeader borderBottomWidth="1px">
             <Image
               src={useColorModeValue('/assets/logo.svg', '/assets/logo-dark.svg')}
@@ -342,14 +345,13 @@ export default function Navbar() {
                 px={4}
                 py={6}
                 onClick={() => {
-                  handleSignOut()
                   onClose()
+                  handleSignOut()
                 }}
                 leftIcon={<Icon as={FiLogOut} boxSize={5} />}
-                color="red.500"
-                _hover={{ bg: 'red.50' }}
+                _hover={{ bg: useColorModeValue('red.50', 'red.900'), color: 'red.500' }}
               >
-                Sign Out
+                <Text>Sign Out</Text>
               </Button>
             </VStack>
           </DrawerBody>

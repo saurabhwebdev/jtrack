@@ -10,6 +10,8 @@ import {
   useToast,
   VStack,
   Flex,
+  Image,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
@@ -75,7 +77,16 @@ export default function Register() {
         mx="auto"
       >
         <VStack spacing={8} align="stretch">
-          <Heading textAlign="center" color="blue.600">Create Account</Heading>
+          <Box textAlign="center">
+            <Image
+              src={useColorModeValue('/src/assets/logo.svg', '/src/assets/logo-dark.svg')}
+              alt="JTrack Logo"
+              h="50px"
+              mx="auto"
+              mb={4}
+            />
+            <Heading color="blue.600">Create Account</Heading>
+          </Box>
           <form onSubmit={handleRegister}>
             <Stack spacing={6}>
               <FormControl isRequired>

@@ -106,6 +106,11 @@ export default function Navbar() {
     // Force cleanup of any lingering overlay
     document.body.style.overflow = ''
     document.body.style.paddingRight = ''
+    // Remove any lingering modal containers
+    const modalContainers = document.querySelectorAll('.chakra-modal__content-container')
+    modalContainers.forEach(container => {
+      container.remove()
+    })
   }
 
   return (
@@ -283,16 +288,27 @@ export default function Navbar() {
         onEsc={handleDrawerClose}
         blockScrollOnMount={false}
         preserveScrollBarGap={true}
+        onCloseComplete={() => {
+          // Additional cleanup on drawer close
+          const modalContainers = document.querySelectorAll('.chakra-modal__content-container')
+          modalContainers.forEach(container => {
+            container.remove()
+          })
+        }}
       >
         <DrawerOverlay 
           bg="blackAlpha.600" 
           backdropFilter="blur(2px)"
           onClick={handleDrawerClose}
+          style={{ position: 'fixed', inset: 0 }}
         />
-        <DrawerContent>
+        <DrawerContent
+          style={{ position: 'fixed', height: '100vh', top: 0, left: 0 }}
+        >
           <DrawerCloseButton 
             onClick={handleDrawerClose}
             _hover={{ bg: useColorModeValue('blue.50', 'blue.900') }}
+            zIndex={2}
           />
           <DrawerHeader borderBottomWidth="1px">
             <Image

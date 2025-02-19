@@ -9,6 +9,7 @@ import {
   Text,
   useToast,
   VStack,
+  Flex,
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
@@ -63,23 +64,15 @@ export default function Register() {
   }
 
   return (
-    <Box 
-      minH="100vh" 
-      w="100%" 
-      display="flex" 
-      alignItems="center" 
-      justifyContent="center" 
-      bg="gray.50"
-      px={4}
-    >
-      <Box 
-        w="full" 
-        maxW="md" 
-        mx="auto" 
-        p={8} 
-        borderRadius="lg" 
-        bg="white" 
+    <Flex w="100vw" h="100vh" alignItems="center" justifyContent="center" bg="gray.50">
+      <Box
+        w={["90%", "80%", "md"]}
+        maxW="md"
+        p={8}
+        borderRadius="lg"
+        bg="white"
         boxShadow="lg"
+        mx="auto"
       >
         <VStack spacing={8} align="stretch">
           <Heading textAlign="center" color="blue.600">Create Account</Heading>
@@ -138,6 +131,6 @@ export default function Register() {
           </Text>
         </VStack>
       </Box>
-    </Box>
+    </Flex>
   )
 }

@@ -267,10 +267,19 @@ export default function Navbar() {
         onOverlayClick={onClose}
         closeOnEsc={true}
         onEsc={onClose}
+        blockScrollOnMount={false}
+        preserveScrollBarGap={true}
       >
-        <DrawerOverlay zIndex={1000} />
-        <DrawerContent zIndex={1001}>
-          <DrawerCloseButton onClick={onClose} />
+        <DrawerOverlay 
+          bg="blackAlpha.600" 
+          backdropFilter="blur(2px)"
+          onClick={onClose}
+        />
+        <DrawerContent>
+          <DrawerCloseButton 
+            onClick={onClose}
+            _hover={{ bg: useColorModeValue('blue.50', 'blue.900') }}
+          />
           <DrawerHeader borderBottomWidth="1px">
             <Image
               src={useColorModeValue('/assets/logo.svg', '/assets/logo-dark.svg')}
@@ -278,7 +287,7 @@ export default function Navbar() {
               h="40px"
               onClick={() => {
                 onClose()
-                navigate('/')
+                setTimeout(() => navigate('/'), 100)
               }}
               cursor="pointer"
             />
@@ -346,7 +355,7 @@ export default function Navbar() {
                 py={6}
                 onClick={() => {
                   onClose()
-                  handleSignOut()
+                  setTimeout(() => handleSignOut(), 100)
                 }}
                 leftIcon={<Icon as={FiLogOut} boxSize={5} />}
                 _hover={{ bg: useColorModeValue('red.50', 'red.900'), color: 'red.500' }}

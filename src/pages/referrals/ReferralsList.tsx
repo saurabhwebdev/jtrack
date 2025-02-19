@@ -28,17 +28,19 @@ import { FiUserPlus, FiMoreVertical } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 import { useApplicationStore } from '../../store/applicationStore'
 import { useReferralStore } from '../../store/referralStore'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
 export default function ReferralsList() {
-  const { applications, loading: appsLoading, error: appsError, fetchApplications } = useApplicationStore()
-  const { referrals, loading: referralsLoading, error: referralsError, fetchReferrals } = useReferralStore()
   const navigate = useNavigate()
   const bgColor = useColorModeValue('white', 'gray.800')
+  const hoverBg = useColorModeValue('gray.50', 'gray.700')
+  
+  const { applications, loading: appsLoading, error: appsError, fetchApplications } = useApplicationStore()
+  const { referrals, loading: referralsLoading, error: referralsError, fetchReferrals } = useReferralStore()
 
   useEffect(() => {
     fetchApplications()
-    fetchReferrals() // Fetch all referrals without an applicationId filter
+    fetchReferrals()
   }, [fetchApplications, fetchReferrals])
 
   const loading = appsLoading || referralsLoading
@@ -126,10 +128,9 @@ export default function ReferralsList() {
                   return (
                     <Tr 
                       key={referral.id}
-                      _hover={{ bg: useColorModeValue('gray.50', 'gray.700') }}
+                      _hover={{ bg: hoverBg }}
                       cursor="pointer"
                       onClick={(e) => {
-                        // Prevent navigation when clicking on the menu
                         if ((e.target as HTMLElement).closest('.actions-menu')) return
                         navigate(`/applications/${referral.applicationId}`)
                       }}

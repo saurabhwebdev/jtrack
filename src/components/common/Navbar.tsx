@@ -16,6 +16,7 @@ import {
   Tooltip,
   Icon,
   MenuGroup,
+  Badge,
 } from '@chakra-ui/react'
 import { HiOutlineMenu } from 'react-icons/hi'
 import { FaFont } from 'react-icons/fa'
@@ -111,7 +112,10 @@ export default function Navbar() {
               onClick={() => navigate('/reports')}
               leftIcon={<Icon as={FiPieChart} />}
             >
-              Analytics
+              Analytics{' '}
+              <Badge ml={2} colorScheme="blue" variant="subtle" fontSize="xs">
+                BETA
+              </Badge>
             </Button>
           </HStack>
         </HStack>

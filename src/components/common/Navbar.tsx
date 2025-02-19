@@ -18,6 +18,13 @@ import {
   MenuGroup,
   Badge,
   VStack,
+  Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  Text,
 } from '@chakra-ui/react'
 import { HiOutlineMenu } from 'react-icons/hi'
 import { FaFont } from 'react-icons/fa'
@@ -43,6 +50,8 @@ export default function Navbar() {
   const navigate = useNavigate()
   const { user } = useAuth()
   const { fontSize, setFontSize } = useTheme()
+  const bgColor = useColorModeValue('white', 'gray.900')
+  const borderColor = useColorModeValue('gray.200', 'gray.700')
 
   const handleSignOut = async () => {
     try {
@@ -53,9 +62,41 @@ export default function Navbar() {
     }
   }
 
+  const NavButton = ({ 
+    icon, 
+    children, 
+    to, 
+    badge 
+  }: { 
+    icon: any; 
+    children: React.ReactNode; 
+    to: string; 
+    badge?: React.ReactNode 
+  }) => (
+    <Button
+      w="full"
+      variant="ghost"
+      justifyContent="flex-start"
+      px={4}
+      py={6}
+      onClick={() => {
+        navigate(to)
+        onClose()
+      }}
+      leftIcon={<Icon as={icon} boxSize={5} />}
+      _hover={{ bg: useColorModeValue('blue.50', 'blue.900') }}
+      position="relative"
+    >
+      <HStack width="full" justify="space-between">
+        <Text>{children}</Text>
+        {badge}
+      </HStack>
+    </Button>
+  )
+
   return (
     <Box
-      bg={useColorModeValue('white', 'gray.900')}
+      bg={bgColor}
       px={4}
       boxShadow="sm"
       position="sticky"
@@ -68,7 +109,8 @@ export default function Navbar() {
           icon={<HiOutlineMenu />}
           aria-label="Open Menu"
           display={{ md: 'none' }}
-          onClick={isOpen ? onClose : onOpen}
+          onClick={onOpen}
+          variant="ghost"
         />
 
         <HStack spacing={8} alignItems="center">
@@ -210,73 +252,93 @@ export default function Navbar() {
         </Flex>
       </Flex>
 
-      {/* Mobile menu */}
-      <Box
-        display={{ base: isOpen ? 'block' : 'none', md: 'none' }}
-        pb={4}
-        px={2}
-      >
-        <VStack spacing={3} align="stretch">
-          <Button 
-            w="full"
-            variant="ghost" 
-            onClick={() => {
-              navigate('/')
-              onClose()
-            }}
-            leftIcon={<Icon as={FiHome} />}
-          >
-            Dashboard
-          </Button>
-          <Button 
-            w="full"
-            variant="ghost" 
-            onClick={() => {
-              navigate('/applications')
-              onClose()
-            }}
-            leftIcon={<Icon as={FiBriefcase} />}
-          >
-            Applications
-          </Button>
-          <Button 
-            w="full"
-            variant="ghost" 
-            onClick={() => {
-              navigate('/interviews')
-              onClose()
-            }}
-            leftIcon={<Icon as={FiCalendar} />}
-          >
-            Interviews
-          </Button>
-          <Button 
-            w="full"
-            variant="ghost" 
-            onClick={() => {
-              navigate('/referrals')
-              onClose()
-            }}
-            leftIcon={<Icon as={FiUserPlus} />}
-          >
-            Referrals
-          </Button>
-          <Button 
-            w="full"
-            variant="ghost" 
-            onClick={() => {
-              navigate('/reports')
-              onClose()
-            }}
-            leftIcon={<Icon as={FiPieChart} />}
-          >
-            Analytics{' '}
-            <Badge ml={2} colorScheme="blue" variant="subtle" fontSize="xs">
-              BETA
-            </Badge>
-          </Button>
-        </VStack>
-      </Box>
+      {/* Mobile Drawer */}
+      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader borderBottomWidth="1px">
+            <Image
+              src={useColorModeValue('/assets/logo.svg', '/assets/logo-dark.svg')}
+              alt="JTrack Logo"
+              h="40px"
+            />
+          </DrawerHeader>
+
+          <DrawerBody px={0} py={4}>
+            <VStack spacing={0} align="stretch">
+              <NavButton icon={FiHome} to="/">
+                Dashboard
+              </NavButton>
+              
+              <NavButton icon={FiBriefcase} to="/applications">
+                Applications
+              </NavButton>
+              
+              <NavButton icon={FiCalendar} to="/interviews">
+                Interviews
+              </NavButton>
+              
+              <NavButton icon={FiUserPlus} to="/referrals">
+                Referrals
+              </NavButton>
+              
+              <NavButton 
+                icon={FiPieChart} 
+                to="/reports"
+                badge={
+                  <Badge colorScheme="blue" variant="subtle" fontSize="xs">
+                    BETA
+                  </Badge>
+                }
+              >
+                Analytics
+              </NavButton>
+
+              <Divider my={4} />
+
+              <Text px={4} mb={2} fontSize="sm" color="gray.500" fontWeight="medium">
+                Account
+              </Text>
+
+              <NavButton icon={FiUser} to="/profile">
+                Profile
+              </NavButton>
+              
+              <NavButton icon={FiSettings} to="/profile/settings">
+                Settings
+              </NavButton>
+              
+              <NavButton icon={FiBell} to="/profile/notifications">
+                Notifications
+              </NavButton>
+              
+              <NavButton icon={FiHelpCircle} to="/help">
+                Help Center
+              </NavButton>
+
+              <Divider my={4} />
+
+              <Button
+                w="full"
+                variant="ghost"
+                justifyContent="flex-start"
+                px={4}
+                py={6}
+                onClick={() => {
+                  handleSignOut()
+                  onClose()
+                }}
+                leftIcon={<Icon as={FiLogOut} boxSize={5} />}
+                color="red.500"
+                _hover={{ bg: 'red.50' }}
+              >
+                Sign Out
+              </Button>
+            </VStack>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
     </Box>
   )
 } 

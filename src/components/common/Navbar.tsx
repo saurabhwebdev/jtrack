@@ -17,6 +17,7 @@ import {
   Icon,
   MenuGroup,
   Badge,
+  VStack,
 } from '@chakra-ui/react'
 import { HiOutlineMenu } from 'react-icons/hi'
 import { FaFont } from 'react-icons/fa'
@@ -208,6 +209,74 @@ export default function Navbar() {
           </Menu>
         </Flex>
       </Flex>
+
+      {/* Mobile menu */}
+      <Box
+        display={{ base: isOpen ? 'block' : 'none', md: 'none' }}
+        pb={4}
+        px={2}
+      >
+        <VStack spacing={3} align="stretch">
+          <Button 
+            w="full"
+            variant="ghost" 
+            onClick={() => {
+              navigate('/')
+              onClose()
+            }}
+            leftIcon={<Icon as={FiHome} />}
+          >
+            Dashboard
+          </Button>
+          <Button 
+            w="full"
+            variant="ghost" 
+            onClick={() => {
+              navigate('/applications')
+              onClose()
+            }}
+            leftIcon={<Icon as={FiBriefcase} />}
+          >
+            Applications
+          </Button>
+          <Button 
+            w="full"
+            variant="ghost" 
+            onClick={() => {
+              navigate('/interviews')
+              onClose()
+            }}
+            leftIcon={<Icon as={FiCalendar} />}
+          >
+            Interviews
+          </Button>
+          <Button 
+            w="full"
+            variant="ghost" 
+            onClick={() => {
+              navigate('/referrals')
+              onClose()
+            }}
+            leftIcon={<Icon as={FiUserPlus} />}
+          >
+            Referrals
+          </Button>
+          <Button 
+            w="full"
+            variant="ghost" 
+            onClick={() => {
+              navigate('/reports')
+              onClose()
+            }}
+            leftIcon={<Icon as={FiPieChart} />}
+          >
+            Analytics{' '}
+            <Badge ml={2} colorScheme="blue" variant="subtle" fontSize="xs">
+              BETA
+            </Badge>
+          </Button>
+        </VStack>
+      </Box>
     </Box>
   )
 } 

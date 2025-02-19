@@ -10,7 +10,7 @@ import {
   MenuItem,
   useDisclosure,
   useColorModeValue,
-  Text,
+  Image,
   Avatar,
   Divider,
   Tooltip,
@@ -70,15 +70,13 @@ export default function Navbar() {
         />
 
         <HStack spacing={8} alignItems="center">
-          <Text
-            fontSize="xl"
-            fontWeight="bold"
-            color="blue.500"
+          <Image
+            src={useColorModeValue('/src/assets/logo.svg', '/src/assets/logo-dark.svg')}
+            alt="JTrack Logo"
+            h="40px"
             cursor="pointer"
             onClick={() => navigate('/')}
-          >
-            JTrack
-          </Text>
+          />
           <HStack as="nav" spacing={4} display={{ base: 'none', md: 'flex' }}>
             <Button 
               variant="ghost" 

@@ -1,6 +1,8 @@
 # JTrack - Job Application Tracking System
 
-![JTrack Logo](public/jtrack-logo.png)
+<div align="center">
+  <img src="src/assets/logo.svg" alt="JTrack Logo" width="120" />
+</div>
 
 ## 🚀 Overview
 

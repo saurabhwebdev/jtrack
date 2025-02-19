@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- Main Text "jS" -->
+  <text x="10" y="25" font-family="Arial" font-size="24" fill="white">
+    <tspan font-weight="bold">j</tspan>
+    <tspan font-weight="normal">S</tspan>
+  </text>
+  <!-- Subtitle "(JTrack)" -->
+  <text x="10" y="35" font-family="Arial" font-size="10" fill="white">(JTrack)</text>
+</svg> 

@@ -72,27 +72,41 @@ export default function Navbar() {
     children: React.ReactNode; 
     to: string; 
     badge?: React.ReactNode 
-  }) => (
-    <Button
-      w="full"
-      variant="ghost"
-      justifyContent="flex-start"
-      px={4}
-      py={6}
-      onClick={() => {
-        onClose()
-        navigate(to)
-      }}
-      leftIcon={<Icon as={icon} boxSize={5} />}
-      _hover={{ bg: useColorModeValue('blue.50', 'blue.900') }}
-      position="relative"
-    >
-      <HStack width="full" justify="space-between">
-        <Text>{children}</Text>
-        {badge}
-      </HStack>
-    </Button>
-  )
+  }) => {
+    const handleClick = () => {
+      onClose()
+      // Force cleanup of any lingering overlay
+      document.body.style.overflow = ''
+      document.body.style.paddingRight = ''
+      navigate(to)
+    }
+
+    return (
+      <Button
+        w="full"
+        variant="ghost"
+        justifyContent="flex-start"
+        px={4}
+        py={6}
+        onClick={handleClick}
+        leftIcon={<Icon as={icon} boxSize={5} />}
+        _hover={{ bg: useColorModeValue('blue.50', 'blue.900') }}
+        position="relative"
+      >
+        <HStack width="full" justify="space-between">
+          <Text>{children}</Text>
+          {badge}
+        </HStack>
+      </Button>
+    )
+  }
+
+  const handleDrawerClose = () => {
+    onClose()
+    // Force cleanup of any lingering overlay
+    document.body.style.overflow = ''
+    document.body.style.paddingRight = ''
+  }
 
   return (
     <Box
@@ -262,22 +276,22 @@ export default function Navbar() {
       <Drawer 
         isOpen={isOpen} 
         placement="left" 
-        onClose={onClose}
+        onClose={handleDrawerClose}
         autoFocus={false}
-        onOverlayClick={onClose}
+        onOverlayClick={handleDrawerClose}
         closeOnEsc={true}
-        onEsc={onClose}
+        onEsc={handleDrawerClose}
         blockScrollOnMount={false}
         preserveScrollBarGap={true}
       >
         <DrawerOverlay 
           bg="blackAlpha.600" 
           backdropFilter="blur(2px)"
-          onClick={onClose}
+          onClick={handleDrawerClose}
         />
         <DrawerContent>
           <DrawerCloseButton 
-            onClick={onClose}
+            onClick={handleDrawerClose}
             _hover={{ bg: useColorModeValue('blue.50', 'blue.900') }}
           />
           <DrawerHeader borderBottomWidth="1px">
@@ -286,8 +300,8 @@ export default function Navbar() {
               alt="JTrack Logo"
               h="40px"
               onClick={() => {
-                onClose()
-                setTimeout(() => navigate('/'), 100)
+                handleDrawerClose()
+                navigate('/')
               }}
               cursor="pointer"
             />
@@ -354,8 +368,8 @@ export default function Navbar() {
                 px={4}
                 py={6}
                 onClick={() => {
-                  onClose()
-                  setTimeout(() => handleSignOut(), 100)
+                  handleDrawerClose()
+                  handleSignOut()
                 }}
                 leftIcon={<Icon as={FiLogOut} boxSize={5} />}
                 _hover={{ bg: useColorModeValue('red.50', 'red.900'), color: 'red.500' }}

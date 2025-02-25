@@ -1,170 +1,115 @@
-# JTrack - Job Application Tracking System
+# JTrackk - Job Application Tracker
 
-<div align="center">
-  <img src="/assets/logo.svg" alt="JTrack Logo" width="120" />
-</div>
+![JTrackk Logo](public/logo.png)
 
-## 🚀 Overview
+## 📌 Overview
 
-JTrack is a modern, feature-rich job application tracking system built with React, TypeScript, and Chakra UI. It helps job seekers efficiently manage their job search process by tracking applications, interviews, referrals, and providing insightful analytics.
-
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
-[![Chakra UI](https://img.shields.io/badge/Chakra_UI-319795?style=for-the-badge&logo=chakra-ui&logoColor=white)](https://chakra-ui.com/)
-[![Supabase](https://img.shields.io/badge/Supabase-181818?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.io/)
+JTrackk is a modern web application designed to help job seekers efficiently track and manage their job applications. Built with React and Firebase, it provides a user-friendly interface to organize job applications, track their status, and manage the overall job search process.
 
 ## ✨ Features
 
-### 📝 Application Management
-- Track job applications with detailed information
-- Monitor application status and progress
-- Store job descriptions, salary information, and company details
-- Add notes and next steps for each application
+- **User Authentication**: Secure login and registration using Firebase Authentication
+- **Job Application Management**: Add, edit, and delete job applications
+- **Status Tracking**: Track the status of each application (Applied, Interviewing, Offered, Rejected, Accepted)
+- **Dashboard Views**: Toggle between list and card views for your job applications
+- **Responsive Design**: Fully responsive interface that works on desktop and mobile devices
+- **Search & Filter**: Easily find specific job applications
+- **Data Visualization**: View statistics about your job search progress
+- **Custom Modals**: User-friendly confirmation dialogs for important actions
 
-### 📅 Interview Tracking
-- Schedule and manage interviews
-- Track different interview rounds
-- Record interviewer details and feedback
-- Set reminders for upcoming interviews
+## 🚀 Technologies Used
 
-### 👥 Referral Management
-- Manage professional referrals
-- Track referral status
-- Store referrer contact information
-- Add notes about referral conversations
-
-### 📊 Analytics Dashboard
-- Visual representation of application statistics
-- Track success rates and application sources
-- Analyze salary ranges and trends
-- Monitor interview performance
-
-### 🔔 Notifications
-- Get alerts for upcoming interviews
-- Receive reminders for follow-ups
-- Stay updated on application status changes
-
-### ⚙️ User Settings
-- Customize profile information
-- Set notification preferences
-- Manage display settings
-- Configure privacy options
-
-## 🛠️ Technology Stack
-
-- **Frontend Framework**: React with TypeScript
-- **UI Library**: Chakra UI
-- **State Management**: Zustand
-- **Backend & Auth**: Supabase
-- **Charts**: Recharts
+- **Frontend**: React, Vite, Ant Design, CSS
+- **Backend**: Firebase (Authentication, Firestore)
+- **State Management**: React Context API
 - **Routing**: React Router
-- **Build Tool**: Vite
+- **Deployment**: Firebase Hosting
 
-## 🚀 Getting Started
+## 📋 Prerequisites
 
-### Prerequisites
+- Node.js (v14.0.0 or higher)
+- npm (v6.0.0 or higher)
+- Firebase account
 
-- Node.js (v14 or higher)
-- npm or yarn
-- Supabase account
+## 🛠️ Installation & Setup
 
-### Installation
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/saurabhwebdev/jtrackk.git
+   cd jtrackk
+   ```
 
-1. Clone the repository:
-```bash
-git clone https://github.com/saurabhwebdev/jtrack.git
-cd jtrack
-```
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-2. Install dependencies:
-```bash
-npm install
-# or
-yarn install
-```
+3. **Set up environment variables**
+   Create a `.env` file in the root directory with your Firebase configuration:
+   ```
+   VITE_FIREBASE_API_KEY=your-api-key
+   VITE_FIREBASE_AUTH_DOMAIN=your-auth-domain
+   VITE_FIREBASE_PROJECT_ID=your-project-id
+   VITE_FIREBASE_STORAGE_BUCKET=your-storage-bucket
+   VITE_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
+   VITE_FIREBASE_APP_ID=your-app-id
+   ```
 
-3. Create a `.env` file in the root directory:
-```env
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-```
+4. **Start the development server**
+   ```bash
+   npm run dev
+   ```
 
-4. Start the development server:
-```bash
-npm run dev
-# or
-yarn dev
-```
+5. **Build for production**
+   ```bash
+   npm run build
+   ```
 
-## 📁 Project Structure
+## 📱 Usage
 
-```
-src/
-├── components/          # Reusable UI components
-│   ├── auth/           # Authentication related components
-│   ├── dashboard/      # Dashboard components
-│   ├── applications/   # Job application components
-│   ├── interviews/     # Interview tracking components
-│   └── common/         # Shared components
-├── pages/              # Route components
-├── hooks/              # Custom React hooks
-├── services/           # API and external services
-│   └── supabase/       # Supabase related services
-├── store/              # Zustand store definitions
-├── types/              # TypeScript type definitions
-├── utils/              # Helper functions
-└── constants/          # Application constants
-```
+1. **Register/Login**: Create an account or log in with existing credentials
+2. **Add Job Applications**: Click "Add New Job" to create a new job application entry
+3. **Track Status**: Update the status of your applications as you progress through the hiring process
+4. **View Statistics**: Check your dashboard for an overview of your job search progress
+5. **Manage Applications**: Edit or delete applications as needed
 
-## 🔐 Authentication
+## 📊 Firebase Setup
 
-JTrack uses Supabase for authentication and data storage. The following features are implemented:
+1. Create a new Firebase project at [Firebase Console](https://console.firebase.google.com/)
+2. Enable Authentication (Email/Password)
+3. Create a Firestore database
+4. Set up security rules for your Firestore database
+5. Register your web app and get your Firebase configuration
+6. Add the configuration to your environment variables
 
-- Email/Password authentication
-- Protected routes
-- Session management
-- Row Level Security (RLS)
+## 🔒 Security
 
-## 📊 Database Schema
-
-The application uses the following main tables:
-
-- `applications` - Stores job application details
-- `interviews` - Tracks interview information
-- `referrals` - Manages referral data
-- `profiles` - User profile information
-
-## 🎨 UI/UX Features
-
-- Responsive design for all screen sizes
-- Dark/Light mode support
-- Customizable font sizes
-- Intuitive navigation
-- Modern and clean interface
-- Consistent styling using Chakra UI
+- Authentication is handled securely through Firebase
+- Firestore security rules ensure users can only access their own data
+- Sensitive information is never exposed in the client-side code
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📝 License
+## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 👨‍💻 Author
 
-**Saurabh Kumar**
-- GitHub: [@saurabhwebdev](https://github.com/saurabhwebdev)
+- **Saurabh** - [saurabhwebdev](https://github.com/saurabhwebdev)
 
-## 🙏 Acknowledgments
+## 🙏 Acknowledgements
 
-- [Chakra UI](https://chakra-ui.com/) for the amazing component library
-- [Supabase](https://supabase.io/) for the backend infrastructure
-- [Recharts](https://recharts.org/) for the charting library
-- All contributors and supporters of the project
+- [React](https://reactjs.org/)
+- [Vite](https://vitejs.dev/)
+- [Firebase](https://firebase.google.com/)
+- [Ant Design](https://ant.design/)
+- [React Router](https://reactrouter.com/)

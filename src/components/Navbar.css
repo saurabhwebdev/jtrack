@@ -1,0 +1,33 @@
+/* Navbar.css */
+.desktop-menu {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.mobile-menu {
+  display: none;
+}
+
+.menu-horizontal {
+  min-width: 400px;
+  border: none;
+  justify-content: flex-end;
+  background: transparent;
+}
+
+@media screen and (max-width: 992px) {
+  .menu-horizontal {
+    min-width: auto;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .desktop-menu {
+    display: none;
+  }
+  
+  .mobile-menu {
+    display: block;
+  }
+}
